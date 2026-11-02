@@ -184,7 +184,7 @@
 
 <div class="app-layout">
   <div class="planner-wrapper">
-    <!-- Header -->
+    <!-- Top: Today's Intentions Header -->
     <Header
       completedCount={filterCounts.completed}
       totalCount={filterCounts.all}
@@ -192,70 +192,78 @@
       onOpenSupabaseModal={() => (isSupabaseModalOpen = true)}
     />
 
-    <!-- Quick Stats -->
-    <StatsBanner {todos} />
+    <!-- Desktop Dashboard Grid: Middle List & Right Sidebar -->
+    <div class="dashboard-layout">
+      <!-- Middle / Main Content Column -->
+      <section class="main-content-column">
+        <!-- Add Task Form -->
+        <TodoForm onAddTodo={handleAddTodo} />
 
-    <!-- Create Task Form -->
-    <TodoForm onAddTodo={handleAddTodo} />
+        <!-- Filters & Search -->
+        <TodoFilter
+          {activeFilter}
+          {selectedCategory}
+          {searchQuery}
+          {sortBy}
+          counts={filterCounts}
+          onFilterChange={(f) => (activeFilter = f)}
+          onCategoryChange={(c) => (selectedCategory = c)}
+          onSearchChange={(s) => (searchQuery = s)}
+          onSortChange={(s) => (sortBy = s)}
+        />
 
-    <!-- Filters & Search -->
-    <TodoFilter
-      {activeFilter}
-      {selectedCategory}
-      {searchQuery}
-      {sortBy}
-      counts={filterCounts}
-      onFilterChange={(f) => (activeFilter = f)}
-      onCategoryChange={(c) => (selectedCategory = c)}
-      onSearchChange={(s) => (searchQuery = s)}
-      onSortChange={(s) => (sortBy = s)}
-    />
+        <!-- Todo List Items -->
+        <main class="todo-list-container">
+          {#if isLoading}
+            <div class="state-card">
+              <Icon name="refresh" size={24} class="spinning rose-icon" />
+              <p class="state-text">Gathering your intentions...</p>
+            </div>
+          {:else if filteredTodos.length === 0}
+            <div class="state-card empty">
+              <div class="empty-icon-circle">
+                <Icon name="heart" size={26} />
+              </div>
+              <h3 class="empty-title">All peaceful here</h3>
+              <p class="empty-desc">
+                {#if searchQuery}
+                  No tasks match "{searchQuery}". Try a different keyword or reset filters.
+                {:else if activeFilter === 'completed'}
+                  No completed tasks yet. Take it one gentle step at a time!
+                {:else if activeFilter === 'active'}
+                  All caught up! Time for tea, rest, or adding a fresh thought.
+                {:else}
+                  Your list is clean and open. What would bring joy to your day?
+                {/if}
+              </p>
+            </div>
+          {:else}
+            <div class="todos-stack">
+              {#each filteredTodos as todo (todo.id)}
+                <TodoItem
+                  {todo}
+                  onToggle={handleToggleTodo}
+                  onEdit={(item) => (editingTodo = item)}
+                  onDelete={handleDeleteTodo}
+                />
+              {/each}
+            </div>
+          {/if}
+        </main>
+      </section>
 
-    <!-- Todo List Items -->
-    <main class="todo-list-container">
-      {#if isLoading}
-        <div class="state-card">
-          <Icon name="refresh" size={24} class="spinning rose-icon" />
-          <p class="state-text">Gathering your intentions...</p>
-        </div>
-      {:else if filteredTodos.length === 0}
-        <div class="state-card empty">
-          <div class="empty-icon-circle">
-            <Icon name="heart" size={26} />
-          </div>
-          <h3 class="empty-title">All peaceful here</h3>
-          <p class="empty-desc">
-            {#if searchQuery}
-              No tasks match "{searchQuery}". Try a different keyword or reset filters.
-            {:else if activeFilter === 'completed'}
-              No completed tasks yet. Take it one gentle step at a time!
-            {:else if activeFilter === 'active'}
-              All caught up! Time for tea, rest, or adding a fresh thought.
-            {:else}
-              Your list is clean and open. What would bring joy to your day?
-            {/if}
-          </p>
-        </div>
-      {:else}
-        <div class="todos-stack">
-          {#each filteredTodos as todo (todo.id)}
-            <TodoItem
-              {todo}
-              onToggle={handleToggleTodo}
-              onEdit={(item) => (editingTodo = item)}
-              onDelete={handleDeleteTodo}
-            />
-          {/each}
-        </div>
-      {/if}
-    </main>
+      <!-- Right Column: The 4 Boxes & Daily Overview -->
+      <aside class="sidebar-column">
+        <StatsBanner {todos} />
+      </aside>
+    </div>
 
     <!-- Footer -->
     <footer class="app-footer">
       <div class="footer-content">
         <p class="footer-brand">
           <Icon name="sparkles" size={13} />
-          <span>Ch&eacute;rie Planner &bull; A warm, gentle space for your day</span>
+          <span>Ch&eacute;rie Planner &bull; A cozy, gentle space for your day</span>
         </p>
         <button
           type="button"
@@ -289,14 +297,33 @@
 <style>
   .app-layout {
     min-height: 100vh;
-    padding: 40px 20px 60px;
+    padding: 36px 24px 60px;
     display: flex;
     justify-content: center;
   }
 
   .planner-wrapper {
     width: 100%;
-    max-width: 840px;
+    max-width: 1240px;
+  }
+
+  .dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 28px;
+    align-items: flex-start;
+  }
+
+  .main-content-column {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .sidebar-column {
+    position: sticky;
+    top: 24px;
+    min-width: 0;
   }
 
   .todo-list-container {
@@ -401,6 +428,16 @@
   .footer-link:hover {
     background: #F8D8DE;
     transform: translateY(-1px);
+  }
+
+  @media (max-width: 990px) {
+    .dashboard-layout {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .sidebar-column {
+      position: static;
+    }
   }
 
   @media (max-width: 640px) {
