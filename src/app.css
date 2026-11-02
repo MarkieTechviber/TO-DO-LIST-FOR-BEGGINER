@@ -1,0 +1,123 @@
+:root {
+  /* Warm, Soft, Cozy Aesthetic Color Palette */
+  --bg-canvas: #FAF6F0;
+  --bg-surface: #FFFFFF;
+  --bg-surface-muted: #F8F2EC;
+  --bg-surface-tint: #FCF7F4;
+  
+  /* Primary Soft Rose & Blush */
+  --rose-primary: #D97784;
+  --rose-hover: #C86371;
+  --rose-active: #B5505E;
+  --rose-light: #FCECEF;
+  --rose-border: #F3CBD3;
+  --rose-text: #9B3948;
+
+  /* Gentle Harmony Accents */
+  --peach-bg: #FDF2E9;
+  --peach-border: #F7DBC7;
+  --peach-text: #965324;
+
+  --sage-bg: #EDF4ED;
+  --sage-border: #CEE1CE;
+  --sage-text: #416B45;
+
+  --lavender-bg: #F3EEF9;
+  --lavender-border: #DDD1EF;
+  --lavender-text: #674B87;
+
+  --butter-bg: #FEF9E7;
+  --butter-border: #FBEBB5;
+  --butter-text: #866617;
+
+  /* Warm Typography (Warm Mocha & Taupe - Never Harsh Pitch Black) */
+  --text-main: #2E2528;
+  --text-body: #4F4348;
+  --text-muted: #7E7076;
+  --text-subtle: #AFA1A7;
+
+  /* Delicate Borders & Outlines */
+  --border-light: #EFE4DC;
+  --border-hover: #DFD0C6;
+  --border-focus: #E68E9A;
+
+  /* Soft Diffused Ambient Shadows */
+  --shadow-sm: 0 2px 8px -1px rgba(184, 137, 147, 0.08);
+  --shadow-card: 0 10px 30px -6px rgba(184, 137, 147, 0.12), 0 4px 12px -2px rgba(184, 137, 147, 0.08);
+  --shadow-hover: 0 16px 36px -8px rgba(184, 137, 147, 0.18), 0 6px 16px -2px rgba(184, 137, 147, 0.12);
+  --shadow-floating: 0 24px 48px -12px rgba(184, 137, 147, 0.22);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Transitions */
+  --transition-smooth: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100%;
+  background-color: var(--bg-canvas);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  /* Delicate warm background aura */
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(249, 222, 226, 0.45) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(254, 238, 224, 0.45) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(243, 237, 248, 0.4) 0px, transparent 60%);
+  background-attachment: fixed;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: var(--transition-smooth);
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--text-main);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
+/* Custom delicate scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-light);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-hover);
+}
